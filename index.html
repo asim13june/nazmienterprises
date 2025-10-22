@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazmi Enterprises | Gypsum & Interior Specialists</title>
+    <!-- Load Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import: Playfair Display for elegance, Inter for fallback/simplicity */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap');
+
+        body {
+            /* Set Inter as the base font, Playfair Display for headings/logo */
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb; /* Light background */
+        }
+
+        /* Ensure headings and high-impact text use the new font */
+        .playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Custom Utility Class for Section Headings */
+        .section-heading {
+            @apply text-4xl font-extrabold text-gray-900 mb-4;
+        }
+
+        /* Slider Styles */
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            min-height: calc(100vh - 80px); /* Full screen minus header height */
+        }
+        .slide-active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Masonry-like grid for portfolio */
+        #portfolio-items {
+            column-count: 1;
+            column-gap: 1.5rem; /* Equivalent to gap-6 */
+        }
+        @media (min-width: 640px) { /* sm */
+            #portfolio-items {
+                column-count: 2;
+            }
+        }
+        @media (min-width: 1024px) { /* lg */
+            #portfolio-items {
+                column-count: 3;
+            }
+        }
+        .portfolio-item {
+            -webkit-column-break-inside: avoid;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            margin-bottom: 1.5rem; /* Equivalent to mb-6 */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="pt-24">
+    
+    <!-- Load Lucide Icons for responsive menu button -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Header & Navigation (Sticky) -->
+    <header class="fixed top-0 left-0 right-0 z-20 bg-white shadow-xl border-b-4 border-amber-500/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Branded Logo & Name -->
+                <div class="flex-shrink-0 flex items-center">
+                    <img src="https://i.pinimg.com/736x/8d/53/8d/8d538d275ebf4209417ae22801a7035d.jpg" 
+                         alt="Nazmi Enterprises Logo" 
+                         class="h-10 w-auto object-contain rounded-lg mr-3">
+                    <h1 class="text-2xl font-black playfair hidden sm:block">
+                        <span class="text-amber-500">NAZMI</span> 
+                        <span class="text-cyan-500">ENTERPRISES</span>
+                    </h1>
+                </div>
+
+                <!-- Top Contact Info (Desktop Only) -->
+                <div class="hidden lg:flex items-center text-sm space-x-4 text-gray-600">
+                    <div class="flex items-center">
+                        <i data-lucide="mail" class="w-4 h-4 text-amber-500 mr-2"></i>
+                        <a href="mailto:nazmienterprises786@gmail.com" class="hover:text-amber-600">nazmienterprises786@gmail.com</a>
+                    </div>
+                    <div class="flex items-center">
+                        <i data-lucide="phone" class="w-4 h-4 text-cyan-500 mr-2"></i>
+                        <a href="tel:+919930224366" class="hover:text-cyan-600">+91 99302 24366</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-toggle" class="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-all">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation (Desktop & Mobile) -->
+        <nav class="hidden lg:flex justify-center md:justify-start lg:justify-start max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100">
+            <div class="flex space-x-6 py-2">
+                <button class="nav-link text-base font-medium text-gray-700 hover:text-amber-600 transition-all active-link" data-page="home">Home</button>
+                <button class="nav-link text-base font-medium text-gray-700 hover:text-amber-600 transition-all" data-page="about">About Us</button>
+                <button class="nav-link text-base font-medium text-gray-700 hover:text-amber-600 transition-all" data-page="services">Services</button>
+                <button class="nav-link text-base font-medium text-gray-700 hover:text-amber-600 transition-all" data-page="blog">Blog</button>
+                <button class="nav-link text-base font-medium text-gray-700 hover:text-amber-600 transition-all" data-page="portfolio">Portfolio</button>
+                <button class="nav-link text-base font-medium text-gray-700 hover:text-amber-600 transition-all" data-page="contact">Contact</button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <nav id="mobile-menu" class="hidden lg:hidden bg-white shadow-xl border-t border-amber-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-amber-50 active-link" data-page="home">Home</button>
+                <button class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-amber-50" data-page="about">About Us</button>
+                <button class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-amber-50" data-page="services">Services</button>
+                <button class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-amber-50" data-page="blog">Blog</button>
+                <button class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-amber-50" data-page="portfolio">Portfolio</button>
+                <button class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-amber-50" data-page="contact">Contact</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto">
+        
+        <!-- Home Section (Landing Slider) -->
+        <section id="home" class="page-content py-8 sm:py-16 px-4 hidden">
+            <div class="relative w-full overflow-hidden rounded-xl shadow-2xl">
+                <!-- Slides Container -->
+                <div id="slider-container" class="relative w-full h-96 sm:h-[60vh] lg:h-[70vh]">
+                    
+                    <!-- Slide 1: Primary Service (Gypsum Ceiling) -->
+                    <div class="slide slide-active absolute inset-0 bg-cover bg-center flex items-center justify-center" 
+                         style="background-image: url('https://i.pinimg.com/736x/34/04/8c/34048c52260687ad8b0f1530fdeaa19c.jpg');">
+                        <div class="text-center p-8 bg-black bg-opacity-50 rounded-xl mx-4">
+                            <h1 class="text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight playfair">
+                                <span class="text-amber-300">GYPSUM</span> Work & Designer False Ceilings
+                            </h1>
+                            <p class="text-base sm:text-xl text-gray-200">
+                                Transforming interiors with flawless finishes and bespoke designs.
+                            </p>
+                            <button class="mt-6 px-6 py-3 bg-amber-500 text-white font-semibold rounded-full hover:bg-amber-600 transition-all shadow-lg" data-page-target="services">
+                                View Our Expertise
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Acoustic Panels -->
+                    <div class="slide absolute inset-0 bg-cover bg-center flex items-center justify-center" 
+                         style="background-image: url('https://i.pinimg.com/736x/11/b0/44/11b04405c646fbc807758ea83c97036b.jpg');">
+                        <div class="text-center p-8 bg-black bg-opacity-50 rounded-xl mx-4">
+                            <h1 class="text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight playfair">
+                                <span class="text-cyan-300">ACOUSTIC</span> Solutions
+                            </h1>
+                            <p class="text-base sm:text-xl text-gray-200">
+                                Superior soundproofing and acoustic panel installation for offices and theatres.
+                            </p>
+                            <button class="mt-6 px-6 py-3 bg-cyan-500 text-white font-semibold rounded-full hover:bg-cyan-600 transition-all shadow-lg" data-page-target="services">
+                                Learn About Sound Control
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Drywall Partitions -->
+                    <div class="slide absolute inset-0 bg-cover bg-center flex items-center justify-center" 
+                         style="background-image: url('https://i.pinimg.com/736x/ad/e5/a7/ade5a79b5bc117619d2f2f17bc649658.jpg');">
+                        <div class="text-center p-8 bg-black bg-opacity-50 rounded-xl mx-4">
+                            <h1 class="text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight playfair">
+                                Efficient Drywall <span class="text-amber-300">PARTITIONS</span>
+                            </h1>
+                            <p class="text-base sm:text-xl text-gray-200">
+                                Quickly and cleanly divide space with durable, fire-resistant partitions.
+                            </p>
+                            <button class="mt-6 px-6 py-3 bg-amber-500 text-white font-semibold rounded-full hover:bg-amber-600 transition-all shadow-lg" data-page-target="portfolio">
+                                See Partitions Projects
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slider Dots/Indicators -->
+                <div id="slider-dots" class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                    <!-- Dots will be generated here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Intro Message -->
+            <div class="mt-16 text-center px-4 sm:px-0">
+                <h2 class="section-heading playfair">Mumbai's Trusted Gypsum & Interior Specialists</h2>
+                <p class="text-xl text-gray-600 font-medium">Nazmi Enterprises delivers quality, durability, and artistry in every project.</p>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="page-content py-16 px-4 hidden">
+            <div class="text-center mb-12">
+                <h2 class="section-heading playfair"><span class="text-amber-600">About</span> Us</h2>
+                <p class="text-xl text-gray-600 font-medium">Over a decade of transforming residential and commercial spaces.</p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-xl shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-3xl font-bold text-gray-900 mb-6 playfair">Our Story & Commitment</h3>
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        **Nazmi Enterprises** has been a pillar of interior design and construction in **Mumbai** since its founding. We specialize in precision **Gypsum Work**, from intricate **POP Molding** to robust **Drywall Partitions**. Our commitment is simple: use high-grade materials and exceptional craftsmanship to create stunning, long-lasting spaces that meet our clients' exact needs.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        We are adept at handling both large commercial projects, where **Acoustic Panels** are crucial for sound management, and detailed residential renovations requiring sophisticated **False Ceilings** and **Repair & Restoration** services. We don't just build; we craft environments.
+                    </p>
+                    
+                    <div class="mt-8">
+                        <h4 class="text-xl font-semibold mb-3 text-cyan-600">Why Choose Nazmi?</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-amber-500 mr-2"></i> Quality Certified Gypsum Materials</li>
+                            <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-cyan-500 mr-2"></i> Dedicated Project Timeline Adherence</li>
+                            <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-amber-500 mr-2"></i> Comprehensive Repair & Restoration Expertise</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-xl shadow-2xl">
+                    <!-- UPDATED IMAGE HERE -->
+                    <img src="https://i.pinimg.com/1200x/b8/82/c4/b882c4ebc10be80b7817fd19d6a3c2db.jpg" 
+                         alt="Nazmi Enterprises Team working on an interior site" 
+                         class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="page-content py-16 px-4 hidden bg-amber-50">
+            <div class="text-center mb-12">
+                <h2 class="section-heading playfair">Our Core <span class="text-cyan-600">Services</span></h2>
+                <p class="text-xl text-gray-600 font-medium">Expert solutions for every aspect of interior finishing and sound management.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1: False Ceiling -->
+                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-all border-b-4 border-amber-500">
+                    <i data-lucide="layout-grid" class="w-10 h-10 text-amber-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900 playfair">False Ceilings & Gypsum Work</h3>
+                    <p class="text-gray-600">Bespoke ceiling designs including multi-level, floating, and integrated lighting systems for residential and commercial spaces.</p>
+                </div>
+
+                <!-- Service Card 2: Partition Walls -->
+                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-all border-b-4 border-cyan-500">
+                    <i data-lucide="slice" class="w-10 h-10 text-cyan-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900 playfair">Drywall Partitions</h3>
+                    <p class="text-gray-600">Quick and cost-effective construction of interior walls, suitable for offices, malls, and home remodels requiring space division.</p>
+                </div>
+
+                <!-- Service Card 3: POP Work -->
+                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-all border-b-4 border-amber-500">
+                    <i data-lucide="palette" class="w-10 h-10 text-amber-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900 playfair">POP Molding & Cornices</h3>
+                    <p class="text-gray-600">Custom ornamental plasterwork, ceiling roses, cornices, and decorative elements for a classic and luxurious touch.</p>
+                </div>
+
+                 <!-- Service Card 4: Acoustic Panels -->
+                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-all border-b-4 border-cyan-500">
+                    <i data-lucide="volume-2" class="w-10 h-10 text-cyan-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900 playfair">Acoustic Panels & Soundproofing</h3>
+                    <p class="text-gray-600">Solutions for noise control in auditoriums, home theatres, recording studios, and commercial spaces to enhance sound quality.</p>
+                </div>
+
+                <!-- Service Card 5: Repair & Restoration -->
+                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-all border-b-4 border-amber-500">
+                    <i data-lucide="wrench" class="w-10 h-10 text-amber-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900 playfair">Repair & Restoration</h3>
+                    <p class="text-gray-600">Expert repair of damaged gypsum ceilings, walls, and POP work due to moisture, cracks, or wear and tear, restoring their original beauty.</p>
+                </div>
+
+                <!-- Service Card 6: Consultation -->
+                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-all border-b-4 border-cyan-500">
+                    <i data-lucide="message-square" class="w-10 h-10 text-cyan-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900 playfair">Consultation & Planning</h3>
+                    <p class="text-gray-600">Start with a site visit and professional consultation to plan, budget, and design the perfect gypsum interior for your property.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Blog Section -->
+        <section id="blog" class="page-content py-16 px-4 hidden">
+            <div class="text-center mb-12">
+                <h2 class="section-heading playfair"><span class="text-amber-600">Our</span> Blog</h2>
+                <p class="text-xl text-gray-600 font-medium">Tips, trends, and insights on modern interior finishing.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Article 1: False Ceiling Trends -->
+                <article class="bg-white rounded-xl shadow-xl overflow-hidden transition-all hover:shadow-2xl">
+                    <img src="https://placehold.co/600x400/fcc400/ffffff?text=Ceiling+Trends" alt="Modern false ceiling design" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-amber-600 playfair">Top 5 False Ceiling Trends of the Year</h3>
+                        <p class="text-gray-700 text-sm mb-4">Discover how linear and cove lighting is defining modern architecture and how we can integrate them into your home or office space.</p>
+                        <a href="#" class="text-cyan-500 hover:text-cyan-700 font-medium text-sm">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Article 2: Drywall vs. Brick -->
+                <article class="bg-white rounded-xl shadow-xl overflow-hidden transition-all hover:shadow-2xl">
+                    <img src="https://placehold.co/600x400/4eb0bb/ffffff?text=Drywall+Construction" alt="Gypsum drywall installation" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-cyan-600 playfair">Why Choose Drywall Partitions Over Brick?</h3>
+                        <p class="text-gray-700 text-sm mb-4">A comparison of speed, cleanliness, cost, and fire resistance, highlighting the benefits of gypsum drywall for fast-paced construction.</p>
+                        <a href="#" class="text-amber-500 hover:text-amber-700 font-medium text-sm">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Article 3: Acoustic for Home Theatres -->
+                <article class="bg-white rounded-xl shadow-xl overflow-hidden transition-all hover:shadow-2xl">
+                    <img src="https://placehold.co/600x400/3e4c59/ffffff?text=Home+Theatre+Acoustics" alt="Acoustic panels in a home theatre" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-amber-600 playfair">Perfect Sound: Acoustic Panels for Home Theatres</h3>
+                        <p class="text-gray-700 text-sm mb-4">Learn how professional acoustic treatment minimizes echo and reverb, giving you cinema-quality sound in your own living space.</p>
+                        <a href="#" class="text-cyan-500 hover:text-cyan-700 font-medium text-sm">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Article 4: Maintenance Tips -->
+                <article class="bg-white rounded-xl shadow-xl overflow-hidden transition-all hover:shadow-2xl">
+                    <img src="https://placehold.co/600x400/fcc400/3e4c59?text=Ceiling+Maintenance" alt="A person cleaning a false ceiling" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-cyan-600 playfair">Extending the Life of Your Gypsum Ceiling</h3>
+                        <p class="text-gray-700 text-sm mb-4">Simple maintenance tips to prevent moisture damage, deal with minor cracks, and keep your false ceiling looking brand new for years.</p>
+                        <a href="#" class="text-amber-500 hover:text-amber-700 font-medium text-sm">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Article 5: POP Molding Beauty -->
+                <article class="bg-white rounded-xl shadow-xl overflow-hidden transition-all hover:shadow-2xl">
+                    <img src="https://placehold.co/600x400/4eb0bb/3e4c59?text=POP+Molding" alt="Intricate POP cornice" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-amber-600 playfair">The Timeless Elegance of POP Molding</h3>
+                        <p class="text-gray-700 text-sm mb-4">From classic cornices to modern ceiling accents, see how POP can add sophistication and architectural depth to any room.</p>
+                        <a href="#" class="text-cyan-500 hover:text-cyan-700 font-medium text-sm">Read More &rarr;</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+
+        <!-- Portfolio Section (Renamed from Gallery) -->
+        <section id="portfolio" class="page-content py-16 px-4 hidden bg-amber-50">
+            <div class="text-center mb-12">
+                <h2 class="section-heading playfair">Our Finished <span class="text-cyan-600">Portfolio</span></h2>
+                <p class="text-xl text-gray-600 font-medium">A selection of our best Gypsum, Partition, and Acoustic projects.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center space-x-2 space-y-2 sm:space-y-0 mb-10">
+                <button class="filter-btn px-4 py-2 text-sm font-semibold rounded-full border transition-all active-filter bg-amber-500 text-white" data-category="all">All Projects</button>
+                <button class="filter-btn px-4 py-2 text-sm font-semibold rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all" data-category="ceiling">False Ceilings</button>
+                <button class="filter-btn px-4 py-2 text-sm font-semibold rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all" data-category="partition">Partitions</button>
+                <button class="filter-btn px-4 py-2 text-sm font-semibold rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all" data-category="pop">POP Molding</button>
+            </div>
+
+            <!-- Portfolio Items (Masonry Layout) -->
+            <div id="portfolio-items">
+                <!-- Project 1 (Ceiling) -->
+                <div class="portfolio-item rounded-xl shadow-lg overflow-hidden transition-all" data-category="ceiling">
+                    <img src="https://i.pinimg.com/736x/34/04/8c/34048c52260687ad8b0f1530fdeaa19c.jpg" alt="Luxury curved false ceiling" class="w-full h-auto object-cover">
+                    <div class="p-4 bg-white border-t-4 border-amber-500">
+                        <h4 class="font-bold text-lg playfair">Luxury Living Room Ceiling</h4>
+                        <p class="text-sm text-gray-500">Intricate curves with perimeter cove lighting. (Gypsum Work)</p>
+                    </div>
+                </div>
+
+                <!-- Project 2 (Acoustic/Ceiling) -->
+                <div class="portfolio-item rounded-xl shadow-lg overflow-hidden transition-all" data-category="ceiling">
+                    <img src="https://i.pinimg.com/736x/11/b0/44/11b04405c646fbc807758ea83c97036b.jpg" alt="Acoustic Ceiling in Office" class="w-full h-auto object-cover">
+                    <div class="p-4 bg-white border-t-4 border-cyan-500">
+                        <h4 class="font-bold text-lg playfair">Modern Office Acoustic Ceiling</h4>
+                        <p class="text-sm text-gray-500">Integrated acoustic panels for superior sound absorption. (Acoustic Panel)</p>
+                    </div>
+                </div>
+                
+                <!-- Project 3 (Partition) -->
+                <div class="portfolio-item rounded-xl shadow-lg overflow-hidden transition-all" data-category="partition">
+                    <img src="https://i.pinimg.com/736x/ad/e5/a7/ade5a79b5bc117619d2f2f17bc649658.jpg" alt="Clean Drywall Partition" class="w-full h-auto object-cover">
+                    <div class="p-4 bg-white border-t-4 border-amber-500">
+                        <h4 class="font-bold text-lg playfair">Minimalist Drywall Office Partition</h4>
+                        <p class="text-sm text-gray-500">Seamless finish dividing cubicles with hidden framework. (Drywall Partition)</p>
+                    </div>
+                </div>
+
+                <!-- Project 4 (Ceiling) -->
+                <div class="portfolio-item rounded-xl shadow-lg overflow-hidden transition-all" data-category="ceiling">
+                    <img src="https://i.pinimg.com/736x/14/70/ba/1470bab3dab69c6604ba7c939a5aa450.jpg" alt="Bedroom False Ceiling" class="w-full h-auto object-cover">
+                    <div class="p-4 bg-white border-t-4 border-cyan-500">
+                        <h4 class="font-bold text-lg playfair">Master Bedroom False Ceiling</h4>
+                        <p class="text-sm text-gray-500">Integrated spot lighting and mood lighting features. (False Ceiling)</p>
+                    </div>
+                </div>
+                
+                <!-- Project 5 (POP) -->
+                <div class="portfolio-item rounded-xl shadow-lg overflow-hidden transition-all" data-category="pop">
+                    <img src="https://i.pinimg.com/736x/99/30/6d/99306d591e850e5a581cea865123f141.jpg" alt="POP Moulding Detail" class="w-full h-auto object-cover">
+                    <div class="p-4 bg-white border-t-4 border-amber-500">
+                        <h4 class="font-bold text-lg playfair">Intricate POP Cornice Work</h4>
+                        <p class="text-sm text-gray-500">Detailed ornamental molding around the ceiling edge. (POP Molding)</p>
+                    </div>
+                </div>
+                
+                <!-- Project 6 (Partition) -->
+                <div class="portfolio-item rounded-xl shadow-lg overflow-hidden transition-all" data-category="partition">
+                    <img src="https://i.pinimg.com/736x/5d/26/b8/5d26b883232c29bb6d66ff9b0fcd72ae.jpg" alt="Curved Drywall Partition" class="w-full h-auto object-cover">
+                    <div class="p-4 bg-white border-t-4 border-cyan-500">
+                        <h4 class="font-bold text-lg playfair">Curved Reception Partition</h4>
+                        <p class="text-sm text-gray-500">Custom curved drywall for a stylish and welcoming reception area. (Drywall Partition)</p>
+                    </div>
+                </div>
+
+                <!-- Project 7 (Ceiling/POP) -->
+                <div class="portfolio-item rounded-xl shadow-lg overflow-hidden transition-all" data-category="ceiling">
+                    <img src="https://i.pinimg.com/736x/b4/c4/cc/b4c4cc8b90c229275965fc50d00aaee0.jpg" alt="Multi-layer False Ceiling" class="w-full h-auto object-cover">
+                    <div class="p-4 bg-white border-t-4 border-amber-500">
+                        <h4 class="font-bold text-lg playfair">Complex Multi-Layer Ceiling</h4>
+                        <p class="text-sm text-gray-500">Dynamic design incorporating multiple levels and concealed lights. (False Ceiling)</p>
+                    </div>
+                </div>
+
+                <!-- Project 8 (Repair & Restoration) -->
+                <div class="portfolio-item rounded-xl shadow-lg overflow-hidden transition-all" data-category="pop">
+                    <img src="https://i.pinimg.com/736x/ef/54/f6/ef54f6995cf765b0633d04b15b30c938.jpg" alt="Restored POP Ceiling" class="w-full h-auto object-cover">
+                    <div class="p-4 bg-white border-t-4 border-cyan-500">
+                        <h4 class="font-bold text-lg playfair">Antique Ceiling Restoration</h4>
+                        <p class="text-sm text-gray-500">Flawless restoration of damaged heritage POP work. (Restoration)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="page-content py-16 px-4 hidden bg-white">
+            <div class="text-center mb-12">
+                <h2 class="section-heading playfair">Get In <span class="text-amber-600">Touch</span></h2>
+                <p class="text-xl text-gray-600 font-medium">We're ready to discuss your next interior project in Mumbai.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Contact Info & Map -->
+                <div class="space-y-8">
+                    <!-- Contact Details Block -->
+                    <div class="p-8 bg-amber-50 rounded-xl shadow-2xl border-l-4 border-cyan-500">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 playfair">Direct Contact Details</h3>
+                        
+                        <!-- Email -->
+                        <div class="flex items-start mb-4">
+                            <i data-lucide="mail" class="w-6 h-6 text-amber-500 mr-4 mt-1 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Email Address</h4>
+                                <a href="mailto:nazmienterprises786@gmail.com" class="text-gray-600 hover:text-cyan-600 transition-all">
+                                    nazmienterprises786@gmail.com
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Phone Numbers -->
+                        <div class="flex items-start mb-4">
+                            <i data-lucide="phone" class="w-6 h-6 text-cyan-500 mr-4 mt-1 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Phone Numbers</h4>
+                                <a href="tel:+919930224366" class="text-gray-600 hover:text-cyan-600 block">+91 99302 24366</a>
+                                <a href="tel:+919324337403" class="text-gray-600 hover:text-cyan-600 block">+91 93243 37403</a>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="flex items-start">
+                            <i data-lucide="map-pin" class="w-6 h-6 text-amber-500 mr-4 mt-1 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Our Location</h4>
+                                <address class="text-gray-600 not-italic">
+                                    Ashiana Building Shop No 26 Near Gausia Masjid, Gafoor Khan Estate LBS Marg, Opp Kurla Bus Depot Kurla (W), Mumbai - 400070.
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Google Map Embed -->
+                    <div class="p-4 bg-white rounded-xl shadow-2xl border-l-4 border-amber-500">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 playfair">Find Us on the Map</h3>
+                        <div class="relative w-full overflow-hidden rounded-lg" style="padding-top: 75%;"> <!-- 4:3 Aspect Ratio -->
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.838521360183!2d72.8748245!3d19.0734999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9fe6a3cf5c7%3A0x81f09c6b61b2da15!2sNazmi%20Enterprises!5e0!3m2!1sen!2sin!4v1714736934440!5m2!1sen!2sin" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                class="absolute top-0 left-0">
+                            </iframe>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="p-8 bg-gray-50 rounded-xl shadow-2xl border-r-4 border-cyan-500">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900 playfair">Request a Site Visit / Quote</h3>
+                    <form id="contact-form" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <input type="text" id="name" name="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="Your Name" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="+91 XXXX XXXXX" required>
+                        </div>
+                        <div>
+                            <label for="project" class="block text-sm font-medium text-gray-700 mb-1">Project Type</label>
+                            <select id="project" name="project" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition-all" required>
+                                <option value="">Select a Service</option>
+                                <option value="Ceiling">False Ceiling</option>
+                                <option value="Partition">Drywall Partition</option>
+                                <option value="Acoustic">Acoustic Panels</option>
+                                <option value="POP">POP Molding</option>
+                                <option value="Repair">Repair & Restoration</option>
+                                <option value="Other">Other Gypsum Work</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="details" class="block text-sm font-medium text-gray-700 mb-1">Project Details</label>
+                            <textarea id="details" name="details" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="Briefly describe your requirements..." required></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all shadow-lg">
+                            Send Request
+                        </button>
+                    </form>
+                    <div id="form-message" class="mt-4 hidden text-center p-3 rounded-lg bg-green-100 text-green-700"></div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- Footer (Sticky) -->
+    <footer class="bg-gray-900 text-white mt-16 py-8 border-t-4 border-cyan-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
+                
+                <!-- Footer Branding -->
+                <div>
+                    <h4 class="text-2xl font-black playfair mb-2">
+                        <span class="text-amber-500">NAZMI</span> 
+                        <span class="text-cyan-500">ENTERPRISES</span>
+                    </h4>
+                    <p class="text-sm text-gray-400">Mumbai's trusted name for all Gypsum, POP, and Drywall solutions since 2012.</p>
+                </div>
+
+                <!-- Footer Navigation -->
+                <div>
+                    <h5 class="font-bold text-lg mb-3 text-cyan-400">Quick Links</h5>
+                    <ul class="space-y-1 text-sm">
+                        <li><button class="text-gray-400 hover:text-white transition-all" data-page-target="about">About Us</button></li>
+                        <li><button class="text-gray-400 hover:text-white transition-all" data-page-target="services">Our Services</button></li>
+                        <li><button class="text-gray-400 hover:text-white transition-all" data-page-target="portfolio">Portfolio</button></li>
+                        <li><button class="text-gray-400 hover:text-white transition-all" data-page-target="blog">Blog</button></li>
+                    </ul>
+                </div>
+
+                <!-- Footer Services -->
+                <div>
+                    <h5 class="font-bold text-lg mb-3 text-amber-400">Specialties</h5>
+                    <ul class="space-y-1 text-sm text-gray-400">
+                        <li>False Ceilings</li>
+                        <li>Drywall Partitions</li>
+                        <li>Acoustic Panels</li>
+                        <li>POP Molding</li>
+                        <li>Repair & Restoration</li>
+                    </ul>
+                </div>
+                
+                <!-- Footer Contact Info -->
+                <div>
+                    <h5 class="font-bold text-lg mb-3 text-cyan-400">Contact Us</h5>
+                    <p class="text-sm text-gray-400 mb-2">
+                        <i data-lucide="phone" class="w-4 h-4 inline-block mr-2 text-amber-500"></i> +91 99302 24366
+                    </p>
+                    <p class="text-sm text-gray-400 mb-2">
+                        <i data-lucide="mail" class="w-4 h-4 inline-block mr-2 text-amber-500"></i> nazmienterprises786@gmail.com
+                    </p>
+                    <address class="text-sm text-gray-400 not-italic">
+                        <i data-lucide="map-pin" class="w-4 h-4 inline-block mr-2 text-amber-500"></i> Kurla (W), Mumbai - 400070
+                    </address>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 pt-4 text-center">
+                <p class="text-gray-400 text-sm">&copy; <span id="current-year"></span> Nazmi Enterprises. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- Single Page Application (SPA) Logic ---
+        
+        // Function to show a specific page and update active link
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+                page.style.opacity = '0';
+            });
+
+            // Show the requested page with fade-in effect
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.remove('hidden');
+                setTimeout(() => {
+                    activePage.style.opacity = '1';
+                }, 50); // Small delay to allow 'hidden' to be removed before transition starts
+            }
+
+            // Update active navigation link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active-link', 'text-amber-600');
+                link.classList.add('text-gray-700');
+                
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active-link', 'text-amber-600', 'font-semibold');
+                    link.classList.remove('text-gray-700');
+                }
+            });
+
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                document.querySelector('#menu-toggle i').setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            }
+        }
+
+        // Attach event listeners for navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const pageId = e.currentTarget.getAttribute('data-page');
+                showPage(pageId);
+                window.location.hash = pageId;
+            });
+        });
+
+        // Attach event listeners for internal CTAs (Call to Actions)
+        document.querySelectorAll('[data-page-target]').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const pageId = e.currentTarget.getAttribute('data-page-target');
+                showPage(pageId);
+                window.location.hash = pageId;
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top on page change
+            });
+        });
+
+        // Handle URL hash on load
+        const initialPage = window.location.hash.substring(1) || 'home';
+        
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            const icon = document.querySelector('#menu-toggle i');
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.setAttribute('data-lucide', 'menu');
+            } else {
+                icon.setAttribute('data-lucide', 'x');
+            }
+            lucide.createIcons(); // Re-render icons after change
+        });
+
+
+        // --- Slider Logic ---
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        let slideInterval;
+        const intervalTime = 5000; // 5 seconds
+
+        function createDots() {
+            const dotsContainer = document.getElementById('slider-dots');
+            slides.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-white', 'opacity-50', 'hover:opacity-100', 'transition-all', 'focus:outline-none');
+                dot.setAttribute('data-slide-index', index);
+                dot.addEventListener('click', () => showSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function showSlide(index) {
+            // Stop auto-play temporarily
+            clearInterval(slideInterval);
+            
+            // Handle wrap-around index
+            if (index >= slides.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = slides.length - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            // Update slides
+            slides.forEach((slide, i) => {
+                slide.classList.remove('slide-active');
+                slide.style.opacity = '0';
+                if (i === currentSlide) {
+                    slide.classList.add('slide-active');
+                    setTimeout(() => {
+                        slide.style.opacity = '1';
+                    }, 50);
+                }
+            });
+
+            // Update dots
+            document.querySelectorAll('#slider-dots button').forEach((dot, i) => {
+                dot.classList.remove('opacity-100');
+                dot.classList.add('opacity-50');
+                if (i === currentSlide) {
+                    dot.classList.add('opacity-100');
+                    dot.classList.remove('opacity-50');
+                }
+            });
+            
+            // Restart auto-play
+            startSlideShow();
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function startSlideShow() {
+            slideInterval = setInterval(nextSlide, intervalTime);
+        }
+
+
+        // --- Portfolio Filter Logic ---
+
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.portfolio-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Update button active state
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-amber-500', 'text-white', 'hover:bg-amber-600', 'bg-cyan-500', 'text-white', 'hover:bg-cyan-600');
+                btn.classList.add('border-gray-300', 'text-gray-700', 'hover:bg-gray-100');
+                
+                if (btn.getAttribute('data-category') === category) {
+                    // Alternate colors for active state
+                    if (category === 'all' || category === 'ceiling' || category === 'pop') {
+                        btn.classList.add('bg-amber-500', 'text-white', 'hover:bg-amber-600');
+                    } else {
+                        btn.classList.add('bg-cyan-500', 'text-white', 'hover:bg-cyan-600');
+                    }
+                    btn.classList.remove('border-gray-300', 'text-gray-700', 'hover:bg-gray-100');
+                }
+            });
+
+            // Filter items
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'inline-block';
+                    item.style.opacity = '1';
+                } else {
+                    item.style.display = 'none';
+                    item.style.opacity = '0';
+                }
+            });
+        }
+
+        // --- Contact Form Submission (Mock) ---
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const messageDiv = document.getElementById('form-message');
+            
+            // Simulate form submission success
+            messageDiv.textContent = 'Request received! We will contact you shortly to confirm a site visit.';
+            messageDiv.classList.remove('hidden', 'bg-red-100', 'text-red-700');
+            messageDiv.classList.add('bg-green-100', 'text-green-700');
+            
+            // Optional: clear the form fields
+            this.reset();
+        });
+
+
+        // --- Initialization ---
+        window.onload = function() {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Render lucide icons
+            lucide.createIcons();
+
+            // SPA initialization
+            showPage(initialPage);
+
+            // Slider initialization
+            createDots();
+            showSlide(0); // Show the first slide and start the interval
+
+            // Attach filter events to portfolio buttons
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.getAttribute('data-category');
+                    filterGallery(category);
+                });
+            });
+
+            // Set initial filter state for portfolio
+            filterGallery('all');
+        };
+    </script>
+</body>
+</html>
